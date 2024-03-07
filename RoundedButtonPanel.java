@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-class RoundedButtonPanel extends JPanel {
+public class RoundedButtonPanel extends JPanel {
 
     private boolean hovered = false;
     private String buttonText;
