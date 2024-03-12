@@ -78,7 +78,7 @@ public class Welcome extends JFrame {
         textPanel.add(Box.createVerticalStrut(20), createGbc());
 
         // Create a simple "Enter" button
-        JButton enterButton = new JButton("Let's Go!");
+        RoundedButtonPanel enterButton = new RoundedButtonPanel("Let's Go!");
         enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
