@@ -101,4 +101,9 @@ public class TSPSolver {
         }
         return -1; //Default; or not found
     }
+
+    public static void main(String[] args) {
+        TSPSolver tsp = new TSPSolver();
+        tsp.solveTSP();
+    }
 }
