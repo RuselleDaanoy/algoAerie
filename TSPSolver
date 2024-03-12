@@ -64,7 +64,7 @@ public class tspSolver {
         }
 
         // Print optimal path and distance
-        System.out.print("Shortest Path: ");
+        System.out.println("Your shortest route is: ");
         for (String location : shortestPath) {
             System.out.print(location + " -> ");
         }
@@ -127,6 +127,7 @@ public class tspSolver {
         
         System.out.print("Choose your starting point: ");
         String location = sc.nextLine();
+        System.out.println("\nYour starting point will be " + location.trim());
         System.out.println();
         
         tsp.solveTSP(location); // Example: Starting point is "St. Peter"
