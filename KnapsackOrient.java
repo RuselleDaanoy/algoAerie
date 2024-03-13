@@ -6,8 +6,8 @@ import java.awt.event.*;
 
 public class KnapsackOrient extends JPanel {
     private JPanel mainPanel;
-    private JPanel userInputPanel; // Panel containing user input components
-    private JButton proceedButton; // Button to proceed after input
+    private JPanel userInputPanel; 
+    private JButton proceedButton; 
     private KnapsackNavigatorUI navigatorUI;
 
     public KnapsackOrient() {
@@ -33,46 +33,38 @@ public class KnapsackOrient extends JPanel {
         messagePanel.add(messageLabel, BorderLayout.CENTER);
         mainPanel.add(messagePanel);
 
-        // Add an empty panel for spacing
         JPanel emptyPanel = new JPanel();
         emptyPanel.setPreferredSize(new Dimension(100, 20));
         mainPanel.add(emptyPanel);
 
-        // Initialize the user input panel but keep it hidden initially
         userInputPanel = createUserInputPanel();
         userInputPanel.setVisible(false);
         mainPanel.add(userInputPanel, BorderLayout.CENTER);
 
-        // Add proceed button below the text
         proceedButton = new JButton("Proceed");
         proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        proceedButton.setPreferredSize(new Dimension(100, 30)); // Set preferred size
+        proceedButton.setPreferredSize(new Dimension(100, 30)); 
         proceedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Show the user input panel when clicked
                 userInputPanel.setVisible(true);
-                // Disable the proceed button
                 proceedButton.setEnabled(false);
             }
         });
         mainPanel.add(proceedButton, BorderLayout.SOUTH);
 
         add(mainPanel);
-        
-        // Initialize KnapsackNavigatorUI
+
         navigatorUI = new KnapsackNavigatorUI();
         userInputPanel.add(navigatorUI.getMainPanel());
     }
 
-    // Method to create the user input panel
     private JPanel createUserInputPanel() {
         JPanel userInputPanel = new JPanel();
         userInputPanel.setLayout(new BoxLayout(userInputPanel, BoxLayout.Y_AXIS));
         return userInputPanel;
     }
-    
-    // Method to get the main panel
+
     public JPanel getMainPanel() {
         return mainPanel;
     }
