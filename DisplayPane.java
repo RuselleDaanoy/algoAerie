@@ -2,53 +2,47 @@ package com.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class DisplayPane extends JFrame {
 
     private JPanel outputPanel;
     private JPanel mainPanel;
+    private KnapsackOrient knapsackOrient;
 
-    public DisplayPane() {
+    public DisplayPane(KnapsackOrient knapsackOrient) {
+        this.knapsackOrient = knapsackOrient;
         initComponents();
     }
 
     private void initComponents() {
-        setTitle("Chip | Display Panel");
+        setTitle("Display Pane");
         setSize(new Dimension(1280, 720));
+
         setResizable(false);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
+        // Initialize mainPanel
         mainPanel = new JPanel(null);
         mainPanel.setBackground(new Color(10, 20, 30));
         setContentPane(mainPanel);
 
+        // Add label "Problem Output" on top of main panel
+        JLabel problemOutputLabel = new JLabel("Problem Output");
+        problemOutputLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        problemOutputLabel.setForeground(Color.WHITE);
+        problemOutputLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        problemOutputLabel.setBounds(0, 10, 1280, 30);
+        mainPanel.add(problemOutputLabel);
+
+        // Create output panel
         outputPanel = new JPanel();
         outputPanel.setBounds(320, 50, 935, 620);
         outputPanel.setBackground(new Color(255, 255, 225));
         outputPanel.setLayout(new BorderLayout()); // Set layout to BorderLayout
         mainPanel.add(outputPanel);
 
-        mainPanel.add(createAppBar());
-        mainPanel.add(createSideBar(new String[]{"Problem Details", "Knapsack", "Selection Sort", "Travelling Salesman", "String Matching", "EXIT"}));
-    }
-
-    private JPanel createAppBar() {
-        JPanel appBarPanel = new JPanel(null);
-        appBarPanel.setBackground(new Color(50, 50, 50));
-        appBarPanel.setBounds(0, 0, 1280, 45);
-    
-        JLabel titleLabel = new JLabel("Output");
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-        // x label horizontally
-        int xCoordinate = (1280 - titleLabel.getPreferredSize().width) / 2;
-        titleLabel.setBounds(xCoordinate, 0, titleLabel.getPreferredSize().width, 45);
-
-        appBarPanel.add(titleLabel);
-    
-        return appBarPanel;
+        // Add components to main panel
+        mainPanel.add(createSideBar(new String[]{"Knapsack", "Selection Sort", "Travelling Salesman Problem", "String Matching", "EXIT!!!"}));
     }
 
     private JPanel createSideBar(String[] values) {
@@ -59,65 +53,45 @@ public class DisplayPane extends JFrame {
 
         for (String value : values) {
             RoundedButtonPanel buttonPanel = new RoundedButtonPanel(value);
-            buttonPanel.addMouseListener(new ButtonMouseListener(value));
+            buttonPanel.addActionListener(e -> {
+                String buttonText = ((RoundedButtonPanel) e.getSource()).getButtonText();
+                handleButtonClick(buttonText);
+            });
             sideBarPanel.add(buttonPanel);
         }
 
         return sideBarPanel;
     }
 
-    public void setKnapsackUI() {
-        // Replace with the Knapsack Navigator UI
-        KnapsackNavigatorUI knapsackUI = new KnapsackNavigatorUI();
-        outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
-        outputPanel.revalidate();
-        outputPanel.repaint();
-    }
-
-    private class ButtonMouseListener implements MouseListener {
-        private String buttonText;
-    
-        public ButtonMouseListener(String buttonText) {
-            this.buttonText = buttonText;
+    private void handleButtonClick(String buttonText) {
+        outputPanel.removeAll();
+        if (buttonText.equals("Knapsack")) {
+            // Get the main panel of KnapsackOrient
+            JPanel knapsackPanel = knapsackOrient.getMainPanel();
+            
+            // Set the layout of the outputPanel to BorderLayout
+            outputPanel.setLayout(new BorderLayout());
+            
+            // Add the main panel of KnapsackOrient to the outputPanel
+            outputPanel.add(knapsackPanel, BorderLayout.CENTER);
+            
+            // Repaint and revalidate the outputPanel
+            outputPanel.revalidate();
+            outputPanel.repaint();
+        } else if (buttonText.equals("EXIT!!!")) {
+            JOptionPane.showMessageDialog(this, "Exiting...");
+            System.exit(0);
+        } else {
+            outputPanel.add(new JLabel("Output for: " + buttonText), BorderLayout.CENTER);
+            outputPanel.revalidate();
+            outputPanel.repaint();
         }
-    
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (buttonText.equals("Problem Details")) {
-                Orient orient = new Orient();
-                orient.setLocationRelativeTo(null);
-                orient.setVisible(true);
-                setVisible(false); // Hide the DisplayPane frame
-            } else if (buttonText.equals("Knapsack")) {
-                setKnapsackUI(); // Initialize the Knapsack UI
-            }else if (buttonText.equals("EXIT")) {
-                // Exit the application
-                dispatchEvent(new WindowEvent(DisplayPane.this, WindowEvent.WINDOW_CLOSING));
-            } else {
-                // pra sa other buttons as displaying a placeholder label
-                JLabel outputLabel = new JLabel("Output for: " + buttonText);
-                outputPanel.add(outputLabel, BorderLayout.CENTER);
-                outputPanel.revalidate();
-                outputPanel.repaint();
-            }
-        }
-    
-        @Override
-        public void mouseEntered(MouseEvent e) {}
-    
-        @Override
-        public void mouseExited(MouseEvent e) {}
-    
-        @Override
-        public void mousePressed(MouseEvent e) {}
-    
-        @Override
-        public void mouseReleased(MouseEvent e) {}
     }
 
     public static void main(String[] args) {
+        KnapsackOrient knapsackOrient = new KnapsackOrient();
         SwingUtilities.invokeLater(() -> {
-            new DisplayPane().setVisible(true);
+            new DisplayPane(knapsackOrient).setVisible(true);
         });
     }
 }
