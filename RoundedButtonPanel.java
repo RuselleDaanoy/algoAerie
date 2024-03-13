@@ -13,6 +13,28 @@ public class RoundedButtonPanel extends JPanel {
         this.buttonText = buttonText;
         setPreferredSize(new Dimension(290, 35));
         setOpaque(false);
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                fireActionPerformed();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                hovered = true;
+                repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                hovered = false;
+                repaint();
+            }
+        });
+    }
+
+    public String getButtonText() {
+        return buttonText;
     }
 
     @Override
@@ -40,16 +62,21 @@ public class RoundedButtonPanel extends JPanel {
         g2d.dispose();
     }
 
-    @Override
-    protected void processMouseEvent(MouseEvent e) {
-        super.processMouseEvent(e);
-        if (e.getID() == MouseEvent.MOUSE_ENTERED) {
-            hovered = true;
-            repaint();
-        } else if (e.getID() == MouseEvent.MOUSE_EXITED) {
-            hovered = false;
-            repaint();
+    public void addActionListener(ActionListener listener) {
+        listenerList.add(ActionListener.class, listener);
+    }
+
+    public void removeActionListener(ActionListener listener) {
+        listenerList.remove(ActionListener.class, listener);
+    }
+
+    protected void fireActionPerformed() {
+        Object[] listeners = listenerList.getListenerList();
+        ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, buttonText);
+        for (int i = listeners.length - 2; i >= 0; i -= 2) {
+            if (listeners[i] == ActionListener.class) {
+                ((ActionListener) listeners[i + 1]).actionPerformed(e);
+            }
         }
     }
 }
-
