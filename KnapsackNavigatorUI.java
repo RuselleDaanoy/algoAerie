@@ -11,7 +11,7 @@ public class KnapsackNavigatorUI {
     private JTextField capacityField;
     private JTextArea resultArea;
     private JButton proceedButton;
-    private JPanel knapsackUIPanel; 
+    private JPanel knapsackUIPanel; // Panel for the knapsack UI
 
     public KnapsackNavigatorUI() {
         initialize();
@@ -21,6 +21,7 @@ public class KnapsackNavigatorUI {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
+        // Add the text message panel
         mainPanel.add(createTextMessagePanel());
     }
 
@@ -28,8 +29,10 @@ public class KnapsackNavigatorUI {
         JPanel textMessagePanel = new JPanel();
         textMessagePanel.setLayout(new BoxLayout(textMessagePanel, BoxLayout.Y_AXIS));
     
+        // Add vertical glue to center the label vertically
         textMessagePanel.add(Box.createVerticalGlue());
-
+    
+        // Create the text message label
         JLabel textMessageLabel = new JLabel("<html><div style='text-align: center;'><font face='Tahoma' size='20' color='black'><b>KNAPSACK:</b></font><br>" +
                 "Identify the compatible cargo for the vehicle, adhering to strict weight restrictions. The vehicle can accommodate loads ranging from a minimum of 1 kilogram to a maximum of 15 kilograms.<br>" +
                 "<br>" +
@@ -42,43 +45,47 @@ public class KnapsackNavigatorUI {
                 "</table></div></html>");
         textMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         textMessagePanel.add(textMessageLabel);
-
+    
+        // Add rigid area to move the button up
         textMessagePanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
+    
+        // Create the "Proceed" button
         proceedButton = new JButton("Proceed");
         proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         proceedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                // Show the knapsack UI panel when the "Proceed" button is clicked
                 showKnapsackUIPanel();
             }
         });
         textMessagePanel.add(proceedButton);
     
+        // Add vertical glue to center the label vertically
         textMessagePanel.add(Box.createVerticalGlue());
     
         return textMessagePanel;
     }
 
     private void showKnapsackUIPanel() {
+        // Remove the text message panel
         mainPanel.removeAll();
-
-        JLabel titleLabel = new JLabel("Knapsack Problem");
-        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 24));
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(titleLabel);
     
+    
+        // Initialize the knapsack UI panel
         if (knapsackUIPanel == null) {
             knapsackUIPanel = createKnapsackUIPanel();
             mainPanel.add(knapsackUIPanel);
         }
-
+    
+        // Update the main panel
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
     private JPanel createKnapsackUIPanel() {
         JPanel knapsackUIPanel = new JPanel(new BorderLayout());
-
+    
+        // Input panel with capacity field
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     
@@ -98,7 +105,8 @@ public class KnapsackNavigatorUI {
         inputPanel.add(solveButton);
     
         knapsackUIPanel.add(inputPanel, BorderLayout.NORTH);
-
+    
+        // Add JTextArea for result below the inputPanel
         resultArea = new JTextArea();
         resultArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(resultArea);
@@ -115,6 +123,7 @@ public class KnapsackNavigatorUI {
                 return;
             }
 
+            // Define products
             Product[] products = {
                     new Product("Canned Goods", 5, 450),
                     new Product("Cooking Oil", 3, 725),
@@ -170,16 +179,19 @@ public class KnapsackNavigatorUI {
             }
     
             table.append(String.format("%-40s%-20.2f%-20d%s%n", subsetString, totalWeight, totalValue, feasibility));
-
+    
+            // Check if this subset has higher value than previous max
             if (totalValue > maxTotalValue && totalWeight <= capacity) {
                 maxTotalValue = totalValue;
-                mostValuableSubsets.clear();
+                mostValuableSubsets.clear(); // Clear previous max subsets
                 mostValuableSubsets.add(subset);
             } else if (totalValue == maxTotalValue && totalWeight <= capacity) {
+                // If this subset has the same highest value as the previous max, add it to the list
                 mostValuableSubsets.add(subset);
             }
         }
-
+    
+        // Print the most valuable subsets
         if (!mostValuableSubsets.isEmpty()) {
             table.append("\n\nMost valuable subsets:\n");
             for (ArrayList<Product> subset : mostValuableSubsets) {
