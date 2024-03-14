@@ -4,7 +4,7 @@ import java.util.*;
 
 public class tspSolver {
 
-    //Declaring the values given
+    // Declaring the values given
     private String[] source = {"St. Peter", "St. John", "Lanao", "Maguindanao"};
 
     private int[][] distance = {
@@ -16,60 +16,61 @@ public class tspSolver {
 
     private String[] shortestPath;
     private int minDistance;
+    private ArrayList<String[]> filteredPermutations; // Store filtered permutations
+    private ArrayList<Integer> filteredPermutationsTotalDistance; // Store total distance of filtered permutations
 
-    //Method to solve TSP
+    public tspSolver() {
+        filteredPermutations = new ArrayList<>();
+        filteredPermutationsTotalDistance = new ArrayList<>();
+    }
+
+    // Method to solve TSP
     public void solveTSP(String startingPoint) {
-        //Initializing of variables
+        // Initializing variables
         shortestPath = null;
         minDistance = Integer.MAX_VALUE;
 
         // Calls permute() method to create all possible permutations
         ArrayList<String[]> permutation = permute(source);
 
-        // Iterates over each permutation generated (Loop)
+        filteredPermutations.clear(); // Clear previous filtered permutations
+        filteredPermutationsTotalDistance.clear(); // Clear previous total distances
+
         for (String[] p : permutation) {
-            // Initializes totalDistance
-            int totalDistance = 0;
-
-            // Finding index of starting point
-            int startIndex = getIndex(startingPoint);
-
-            // Starting from the specified starting point
-            totalDistance += distance[startIndex][getIndex(p[0])];
-
-            for (int i = 0; i < p.length - 1; i++) {
-                int fromIndex = getIndex(p[i]);
-                int toIndex = getIndex(p[i + 1]);
-
-                totalDistance += distance[fromIndex][toIndex];
+            if (startingPoint.equals(p[0])) {
+                filteredPermutations.add(p);
+                int totalDistance = calculateTotalDistance(p);
+                filteredPermutationsTotalDistance.add(totalDistance);
             }
+        }
 
-            totalDistance += distance[getIndex(p[p.length - 1])][startIndex];
+        // Iterates over each permutation generated (Loop)
+        for (int i = 0; i < filteredPermutations.size(); i++) {
+            String[] p = filteredPermutations.get(i);
+            int totalDistance = filteredPermutationsTotalDistance.get(i);
 
             // Print out all possible permutations
-            if (startingPoint.equals(p[0])) {
-                for (String location : p) {
-                    System.out.print(location + " -> ");
-                }
-                System.out.println(p[0]); // Prints the starting point of each corresponding permutation
-                System.out.println("Distance: " + totalDistance);
-                System.out.println();
+            for (String location : p) {
+                System.out.print(location + " -> ");
             }
+            System.out.print(p[0]); // Prints the starting point of each corresponding permutation
+            System.out.print(" = " + totalDistance);
+            System.out.println();
 
             // Updating shortest path and distance if the current path is shorter
-            if (totalDistance < minDistance && startingPoint.equals(p[0])) {
+            if (totalDistance < minDistance) {
                 minDistance = totalDistance;
                 shortestPath = p;
             }
         }
 
         // Print optimal path and distance
-        System.out.println("Your shortest route is: ");
+        System.out.println("\nYour shortest route is: ");
         for (String location : shortestPath) {
             System.out.print(location + " -> ");
         }
         System.out.println(shortestPath[0]); // Prints out the starting point of the shortest path
-        System.out.println("Distance: " + minDistance);
+        System.out.println("\nWith a distance of: " + minDistance);
     }
 
     // Method to generate all possible permutations
@@ -115,6 +116,40 @@ public class tspSolver {
         return -1; // Default; or not found
     }
 
+    // Method to calculate the total distance of a permutation
+    private int calculateTotalDistance(String[] permutation) {
+        int totalDistance = 0;
+        for (int i = 0; i < permutation.length - 1; i++) {
+            int fromIndex = getIndex(permutation[i]);
+            int toIndex = getIndex(permutation[i + 1]);
+            totalDistance += distance[fromIndex][toIndex];
+        }
+        // Add distance from last location back to starting point
+        int lastIndex = getIndex(permutation[permutation.length - 1]);
+        int startIndex = getIndex(permutation[0]);
+        totalDistance += distance[lastIndex][startIndex];
+        return totalDistance;
+    }
+
+    public String getShortestPathAsString() {
+        // Convert shortestPath array to a string
+        StringBuilder sb = new StringBuilder();
+        for (String location : shortestPath) {
+            sb.append(location).append(" -> ");
+        }
+        sb.append(shortestPath[0]); // Append the starting point
+        return sb.toString();
+    }
+
+    public int getMinDistance() {
+        return minDistance;
+    }
+
+    // Method to get filtered permutations
+    public ArrayList<String[]> getFilteredPermutations() {
+        return filteredPermutations;
+    }
+
     public static void main(String[] args) {
         tspSolver tsp = new tspSolver();
 
@@ -127,6 +162,9 @@ public class tspSolver {
         
         System.out.print("Choose your starting point: ");
         String location = sc.nextLine();
+
+        sc.close();
+
         System.out.println("\nYour starting point will be " + location.trim());
         System.out.println();
         
