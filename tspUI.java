@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class tspUI extends JFrame implements ActionListener {
+public class tspUI extends JPanel implements ActionListener {
     private JLabel addressForm, nameLabel, houseLabel, streetLabel, barangayLabel, municipalityLabel, provinceLabel;
     private JTextField nameField, houseField, streetField, barangayField, municipalityField;
     private JComboBox<String> provinceDropdown;
@@ -16,16 +16,12 @@ public class tspUI extends JFrame implements ActionListener {
     private tspSolver solver;
 
     public tspUI() {
-        setTitle("TSP Details");
-        setSize(new Dimension(1280, 720));
-
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-
-        add(mainPanel());
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(980, 700));
 
         solver = new tspSolver();
+
+        add(mainPanel(), BorderLayout.CENTER);
     }
 
     public JPanel mainPanel() {
@@ -38,13 +34,17 @@ public class tspUI extends JFrame implements ActionListener {
         return panel;
     }
 
+    public JPanel getMainPanel() {
+        return mainPanel();
+    }
+
     public JPanel header() {
         JPanel panel = new JPanel(null);
         panel.setBackground(new Color(0x737373));
-        panel.setBounds(0,0,1280, 45);
+        panel.setBounds(0,0,980, 45);
 
         JLabel title = new JLabel("Traveling Salesman Problem"); //Header title
-        title.setBounds(0,0,1280,40);
+        title.setBounds(0,0,980,40);
         title.setForeground(Color.WHITE);
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
@@ -57,28 +57,32 @@ public class tspUI extends JFrame implements ActionListener {
     public JPanel content() {
         JPanel panel = new JPanel(null);
         panel.setBackground(new Color(0xD9D9D9));
-        panel.setBounds(0, 40, 1280, 675);
-
-        JLabel content = new JLabel("<html>Deliver items to the customer's address from the selected province using the shortest route. Provide customer name and address for delivery initiation. Determine shortest route based on distances between provinces.<br><br>Province Distances (in kilometers):<br><br>"
-                                    + "<table border='1' cellpadding='5' cellspacing='0'>"
-                                    + "<tr><td></td><td>St. Peter</td><td>St. John</td><td>Lanao</td><td>Maguindanao</td></tr>"
-                                    + "<tr><td>St. Peter</td><td>0</td><td>300</td><td>150</td><td>200</td></tr>"
-                                    + "<tr><td>St. John</td><td>150</td><td>0</td><td>200</td><td>300</td></tr>"
-                                    + "<tr><td>Lanao</td><td>100</td><td>120</td><td>0</td><td>200</td></tr>"
-                                    + "<tr><td>Maguindanao</td><td>200</td><td>200</td><td>100</td><td>0</td></tr>"
-                                    + "</table></html>");
-        content.setBounds(40, 40, 1200, 660);
+        panel.setBounds(0, 40, 980, 655);
+    
+        String htmlContent = "<html>Deliver items to the customer's address from the selected province using the shortest route. Provide customer name and address for delivery initiation. Determine shortest route based on distances between provinces.<br><br>"
+                + "Province Distances (in kilometers):<br><br>"
+                + "<div style='text-align: center;'>"
+                + "<table border='1' cellpadding='5' cellspacing='0' style='margin-left: auto; margin-right: auto;'>"
+                + "<tr><td></td><td>St. Peter</td><td>St. John</td><td>Lanao</td><td>Maguindanao</td></tr>"
+                + "<tr><td>St. Peter</td><td>0</td><td>300</td><td>150</td><td>200</td></tr>"
+                + "<tr><td>St. John</td><td>150</td><td>0</td><td>200</td><td>300</td></tr>"
+                + "<tr><td>Lanao</td><td>100</td><td>120</td><td>0</td><td>200</td></tr>"
+                + "<tr><td>Maguindanao</td><td>200</td><td>200</td><td>100</td><td>0</td></tr>"
+                + "</table></div></html>";
+    
+        JLabel content = new JLabel(htmlContent);
+        content.setBounds(40, 80, 900, 640);
         content.setVerticalAlignment(JLabel.TOP);
         content.setFont(new Font("Arial", Font.PLAIN, 20));
         panel.add(content);
-
+    
         //Proceed button
         proceedButton = new JButton("Proceed");
-        proceedButton.setBounds(580, 580, 100, 30);
+        proceedButton.setBounds(440, 550, 100, 30);
         proceedButton.addActionListener(this);
-
+    
         panel.add(proceedButton);
-
+    
         return panel;
     }
 
@@ -86,49 +90,43 @@ public class tspUI extends JFrame implements ActionListener {
         if (e.getSource() == proceedButton) {
             // Proceed to the output panel
             displayOutputPanel();
-            updateHeaderTitle("Traveling Salesman Solution");
         }
     }
-
-    public void updateHeaderTitle(String newTitle) {
-        // Find the title label and update its text
-        Component[] components = getContentPane().getComponents();
-        for (Component component : components) {
-            if (component instanceof JPanel) {
-                JPanel panel = (JPanel) component;
-                Component[] headerComponents = panel.getComponents();
-                for (Component headerComponent : headerComponents) {
-                    if (headerComponent instanceof JLabel) {
-                        JLabel titleLabel = (JLabel) headerComponent;
-                        if (titleLabel.getText().equals("Traveling Salesman Problem")) {
-                            titleLabel.setText(newTitle);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+        
 
     public void displayOutputPanel() {
-        // Create output panel
         outputPanel = new JPanel(null);
         outputPanel.setBackground(new Color(0xD9D9D9));
-        outputPanel.setBounds(0, 40, 1280, 680);
+        outputPanel.setPreferredSize(new Dimension(980, 680));
 
-        //Add panels to the existing output panel
+        outputPanel.add(newHeader());
         outputPanel.add(addressForm());
         outputPanel.add(addressOutput());
         outputPanel.add(algorithmOutput());
 
         // Add output panel to the frame
-        getContentPane().removeAll(); // Remove existing content
-        getContentPane().add(header()); // Add header
-        getContentPane().add(outputPanel); // Add output panel
+        removeAll(); // Remove existing content
+        add(outputPanel, BorderLayout.CENTER);
 
         // Refresh frame
         revalidate();
         repaint();
+    }
+
+    public JPanel newHeader() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(new Color(0x737373));
+        panel.setBounds(0,0,980, 45);
+
+        JLabel title = new JLabel("Traveling Salesman Solution"); //Header title
+        title.setBounds(0,0,980,40);
+        title.setForeground(Color.WHITE);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+
+        panel.add(title);
+
+        return panel;
     }
 
     public JPanel addressForm() {
@@ -244,7 +242,7 @@ public class tspUI extends JFrame implements ActionListener {
                 //Create and display the pop-up message for the "Fill all the fields" case
                 JOptionPane optionPane = new JOptionPane("Please fill in all fields.", JOptionPane.ERROR_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error");
-                dialog.setLocation(73, 460); //Sets at a specific location
+                dialog.setLocation(373, 500); //Sets at a specific location
                 dialog.setVisible(true);
                 return;
             }
@@ -253,7 +251,7 @@ public class tspUI extends JFrame implements ActionListener {
                 //Create and display the pop-up message for "Please select a province" case
                 JOptionPane optionPane = new JOptionPane("Please select a province.", JOptionPane.ERROR_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error");
-                dialog.setLocation(73, 460); //Sets at a specific location
+                dialog.setLocation(373, 500); //Sets at a specific location
                 dialog.setVisible(true);
                 return;
             }
