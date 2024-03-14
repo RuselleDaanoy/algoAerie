@@ -26,19 +26,19 @@ public class DisplayPane extends JFrame {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
-        mainPanel.setBackground(new Color(0, 0, 0));
+        mainPanel.setBackground(new Color(61, 96, 68));
         setContentPane(mainPanel);
-    
+
         JLabel problemOutputLabel = new JLabel("Crafting Pane");
         problemOutputLabel.setFont(new Font("Arial", Font.BOLD, 20));
         problemOutputLabel.setForeground(Color.WHITE);
         problemOutputLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        problemOutputLabel.setPreferredSize(new Dimension(1280, 50));
+        problemOutputLabel.setPreferredSize(new Dimension(1280, 50)); 
         mainPanel.add(problemOutputLabel, BorderLayout.NORTH);
 
         outputPanel = new JPanel();
-        outputPanel.setBackground(new Color(217, 217, 217));
+        outputPanel.setBackground(new Color(243, 234, 214));
         outputPanel.setLayout(new BorderLayout());
         mainPanel.add(outputPanel, BorderLayout.CENTER);
 
@@ -49,13 +49,13 @@ public class DisplayPane extends JFrame {
 
     private JPanel createSideBar(String[] values) {
         JPanel sideBarPanel = new JPanel();
-        sideBarPanel.setLayout(null); 
-        sideBarPanel.setBackground(new Color(84, 84, 84));
+        sideBarPanel.setLayout(null);
+        sideBarPanel.setBackground(new Color(221, 173, 71));
     
         int buttonWidth = 260; 
         int buttonHeight = 100; 
         int verticalGap = 20; 
-        int startY = 25; 
+        int startY = 25;
     
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
@@ -72,16 +72,16 @@ public class DisplayPane extends JFrame {
             });
             sideBarPanel.add(buttonPanel);
         }
-    
+
         int preferredHeight = startY + values.length * buttonHeight + (values.length - 1) * verticalGap;
-        sideBarPanel.setPreferredSize(new Dimension(buttonWidth + 40, preferredHeight)); 
+        sideBarPanel.setPreferredSize(new Dimension(buttonWidth + 40, preferredHeight));
         return sideBarPanel;
     }
 
     private void handleButtonClick(String buttonText) {
         outputPanel.removeAll();
         if (buttonText.equals("Knapsack")) {
-            knapsackUI = new KnapsackNavigatorUI(); 
+            knapsackUI = new KnapsackNavigatorUI();
             outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
         } else if (buttonText.equals("Travelling Salesman Problem")){
             tspUI = new tspUI();
@@ -91,7 +91,7 @@ public class DisplayPane extends JFrame {
         } else if (buttonText.equals("EXIT!!!")) {
             String message = "<html><body style='font-family: Arial, sans-serif; font-size: 10px;'>";
             message += "<div style='border: 1px solid #ccc; padding: 5px;'>";
-            message += "<i>As you depart, introducing the visionary minds behind AlgoaArie's innovative GUI, TechTetra proudly presents:</i><br/>";
+            message += "<i>As you depart, introducing the visionary minds behind AlgoArie's innovative GUI, TechTetra proudly presents:</i><br/>";
             message += "<ul style='list-style-type: none; padding-left: 0; margin-top: 3px;'>";
             message += "<br><li><i>Faye Camille Buri</i></li>";
             message += "<li><i>Louise Andrea Tatoy</i></li>";
@@ -114,7 +114,7 @@ public class DisplayPane extends JFrame {
                     System.exit(0);
                 }
             });
-            
+
             dialog.add(goodbyeButton, BorderLayout.SOUTH);
 
             dialog.setSize(500, 200);
