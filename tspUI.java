@@ -78,7 +78,7 @@ public class tspUI extends JPanel implements ActionListener {
     
         //Proceed button
         proceedButton = new JButton("Proceed");
-        proceedButton.setBounds(440, 550, 100, 30);
+        proceedButton.setBounds(440, 520, 100, 30);
         proceedButton.addActionListener(this);
     
         panel.add(proceedButton);
