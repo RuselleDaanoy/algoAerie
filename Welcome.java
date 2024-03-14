@@ -13,6 +13,8 @@ public class Welcome extends JFrame {
     public Welcome() {
         setTitle("AlgoAerie");
         setSize(new Dimension(1280, 720));
+        setResizable(false);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         mainPanel = new JPanel(new BorderLayout());
@@ -28,7 +30,6 @@ public class Welcome extends JFrame {
         gbc.weightx = 1;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 0, 10, 0); 
-
         hiLabel = new JLabel("Hi, are you new here?");
         hiLabel.setFont(hiLabel.getFont().deriveFont(45f)); 
         textPanel.add(hiLabel, createGbc()); 
@@ -58,34 +59,35 @@ public class Welcome extends JFrame {
         hiLabel.setText("Welcome, " + capitalizedString + "!"); 
         textPanel.add(hiLabel, createGbc()); 
         textPanel.add(Box.createVerticalStrut(20), createGbc());
-    
+
         JPanel descriptionPanel = new JPanel(new BorderLayout());
-        descriptionPanel.setOpaque(false);
+        descriptionPanel.setOpaque(false); 
         JLabel descriptionLabel = new JLabel("<html><div style='text-align:center; width:600px; color:rgb(0,0,0);'>We are TechTetra, and this is AlgoAerie.<br><br>It is an innovative and dynamic interactive platform, offering a visual journey through intricate algorithmic challenges and their tailored solutions. Seamlessly blending user-friendly graphics with in-depth problem exploration, AlgoAerie illuminates the intricate tapestry of algorithmic problem-solving like never before.</div></html>");
         descriptionLabel.setFont(descriptionLabel.getFont().deriveFont(18f)); 
         descriptionPanel.add(descriptionLabel, BorderLayout.CENTER); 
-        textPanel.add(descriptionPanel, createGbc());
+        textPanel.add(descriptionPanel, createGbc()); 
         textPanel.add(Box.createVerticalStrut(20), createGbc());
     
         JPanel additionalTextPanel = new JPanel(new GridBagLayout());
         additionalTextPanel.setOpaque(false); 
         JLabel additionalTextLabel = new JLabel("<html><span style='background-color: #AB875F; font-style: italic;'>Are you ready to unveil algorithms and craft solutions?</span></html>");
         additionalTextLabel.setFont(additionalTextLabel.getFont().deriveFont(18f)); 
-        additionalTextPanel.add(additionalTextLabel, createGbc()); 
+        additionalTextPanel.add(additionalTextLabel, createGbc());
         textPanel.add(additionalTextPanel, createGbc()); 
         textPanel.add(Box.createVerticalStrut(20), createGbc());
- 
-        RoundedButtonPanel enterButton = new RoundedButtonPanel("Let's Go!");
     
+        RoundedButtonPanel enterButton = new RoundedButtonPanel("Let's Go!");
+
         enterButton.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> {
-                Heroes heroes = new Heroes();
-                heroes.setLocationRelativeTo(null);
-                heroes.setVisible(true);
+                DisplayPane displayPane = new DisplayPane();
+                displayPane.setLocationRelativeTo(null);
+                displayPane.setVisible(true);
             });
 
             dispose();
         });
+
     
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         bottomPanel.setBackground(new Color(255, 255, 225));
