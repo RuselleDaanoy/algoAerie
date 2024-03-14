@@ -275,9 +275,13 @@ public class tspUI extends JPanel implements ActionListener {
 
                 // Add filtered permutations to the output
                 ArrayList<String[]> filteredPermutations = solver.getFilteredPermutations();
-                for (String[] p : filteredPermutations) {
-                    output += String.join(" -> ", p) + "\n";
-                    }
+                ArrayList<Integer> filteredPermutationsTotalDistance = solver.getFilteredPermutationsTotalDistance();
+                for (int i = 0; i < filteredPermutations.size(); i++) {
+                    String[] p = filteredPermutations.get(i);
+                    int distance = filteredPermutationsTotalDistance.get(i);
+
+                    output += String.join(" -> ", p) + " = " + distance + "\n";
+                }
                     
                     output += "\nYour shortest route is:\n" + shortestPath + "\n\n" +
                     "With a distance of: " + minDistance;
