@@ -150,6 +150,10 @@ public class tspSolver {
         return filteredPermutations;
     }
 
+    public ArrayList<Integer> getFilteredPermutationsTotalDistance() {
+        return filteredPermutationsTotalDistance;
+    }
+
     public static void main(String[] args) {
         tspSolver tsp = new tspSolver();
 
