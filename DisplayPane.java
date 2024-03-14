@@ -9,10 +9,12 @@ public class DisplayPane extends JFrame {
 
     private JPanel outputPanel;
     private KnapsackNavigatorUI knapsackUI;
+    private tspUI tspUI;
 
     public DisplayPane() {
         initComponents();
-        knapsackUI = new KnapsackNavigatorUI(); 
+        knapsackUI = new KnapsackNavigatorUI();
+        tspUI = new tspUI();
     }
 
     private void initComponents() {
@@ -81,6 +83,10 @@ public class DisplayPane extends JFrame {
         if (buttonText.equals("Knapsack")) {
             knapsackUI = new KnapsackNavigatorUI(); 
             outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
+        } else if (buttonText.equals("Travelling Salesman Problem")){
+            outputPanel.add(tspUI, BorderLayout.CENTER);
+            outputPanel.revalidate();
+            outputPanel.repaint();
         } else if (buttonText.equals("EXIT!!!")) {
             String message = "<html><body style='font-family: Arial, sans-serif; font-size: 10px;'>";
             message += "<div style='border: 1px solid #ccc; padding: 5px;'>";
