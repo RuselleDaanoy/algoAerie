@@ -219,7 +219,7 @@ public class tspUI extends JPanel implements ActionListener {
         panel.setBounds(320, 0, 960, 680);
 
         algorithmOutput = new JTextArea();
-        algorithmOutput.setBounds(40, 60, 880, 600);
+        algorithmOutput.setBounds(40, 80, 880, 600);
         algorithmOutput.setEditable(false);
         algorithmOutput.setBackground(new Color(255, 255, 225));
         panel.add(algorithmOutput);
