@@ -2,6 +2,8 @@ package com.example;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class tspUI extends JFrame implements ActionListener {
@@ -9,8 +11,9 @@ public class tspUI extends JFrame implements ActionListener {
     private JTextField nameField, houseField, streetField, barangayField, municipalityField;
     private JComboBox<String> provinceDropdown;
     private JButton proceedButton, submitButton;
-    private JTextArea addressOutput;
+    private JTextArea addressOutput, algorithmOutput;
     private JPanel outputPanel;
+    private tspSolver solver;
 
     public tspUI() {
         setTitle("TSP Details");
@@ -21,6 +24,8 @@ public class tspUI extends JFrame implements ActionListener {
         setResizable(false);
 
         add(mainPanel());
+
+        solver = new tspSolver();
     }
 
     public JPanel mainPanel() {
@@ -36,7 +41,7 @@ public class tspUI extends JFrame implements ActionListener {
     public JPanel header() {
         JPanel panel = new JPanel(null);
         panel.setBackground(new Color(0x737373));
-        panel.setBounds(0,0,1280, 40);
+        panel.setBounds(0,0,1280, 45);
 
         JLabel title = new JLabel("Traveling Salesman Problem"); //Header title
         title.setBounds(0,0,1280,40);
@@ -52,7 +57,7 @@ public class tspUI extends JFrame implements ActionListener {
     public JPanel content() {
         JPanel panel = new JPanel(null);
         panel.setBackground(new Color(0xD9D9D9));
-        panel.setBounds(0, 40, 1280, 680);
+        panel.setBounds(0, 40, 1280, 675);
 
         JLabel content = new JLabel("<html>Deliver items to the customer's address from the selected province using the shortest route. Provide customer name and address for delivery initiation. Determine shortest route based on distances between provinces.<br><br>Province Distances (in kilometers):<br><br>"
                                     + "<table border='1' cellpadding='5' cellspacing='0'>"
@@ -212,8 +217,14 @@ public class tspUI extends JFrame implements ActionListener {
 
     public JPanel algorithmOutput() {
         JPanel panel = new JPanel(null);
-        panel.setBackground(Color.BLUE);
+        panel.setBackground(new Color(255, 255, 225));
         panel.setBounds(320, 0, 960, 680);
+
+        algorithmOutput = new JTextArea();
+        algorithmOutput.setBounds(40, 60, 880, 600);
+        algorithmOutput.setEditable(false);
+        algorithmOutput.setBackground(new Color(255, 255, 225));
+        panel.add(algorithmOutput);
 
         return panel;
     }
@@ -246,6 +257,11 @@ public class tspUI extends JFrame implements ActionListener {
                 dialog.setVisible(true);
                 return;
             }
+
+            solver.solveTSP(selectedProvince);
+            
+            String shortestPath = solver.getShortestPathAsString();
+            int minDistance = solver.getMinDistance();
     
             //Create the message string
             //trim() method is added; excess " " will not be counted
@@ -255,6 +271,21 @@ public class tspUI extends JFrame implements ActionListener {
     
             addressOutput.setText(message);
             addressOutput.setFont(new Font("Arial", Font.BOLD, 14));
+
+            String output = "Your starting point is " + selectedProvince + ".\n\n" +
+                "Possible Routes:\n\n";
+
+                // Add filtered permutations to the output
+                ArrayList<String[]> filteredPermutations = solver.getFilteredPermutations();
+                for (String[] p : filteredPermutations) {
+                    output += String.join(" -> ", p) + "\n";
+                    }
+                    
+                    output += "\nYour shortest route is:\n" + shortestPath + "\n\n" +
+                    "With a distance of: " + minDistance;
+
+            algorithmOutput.setText(output);
+            algorithmOutput.setFont(new Font("Arial", Font.PLAIN, 16));
         }
     }
 
