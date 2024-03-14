@@ -84,6 +84,7 @@ public class DisplayPane extends JFrame {
             knapsackUI = new KnapsackNavigatorUI(); 
             outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
         } else if (buttonText.equals("Travelling Salesman Problem")){
+            tspUI = new tspUI();
             outputPanel.add(tspUI, BorderLayout.CENTER);
             outputPanel.revalidate();
             outputPanel.repaint();
