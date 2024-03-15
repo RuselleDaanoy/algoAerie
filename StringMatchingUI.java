@@ -233,7 +233,7 @@ public class StringMatchingUI extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("String Matching UI");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.getContentPane().add(new StringMatching());
+            frame.getContentPane().add(new StringMatchingUI());
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
