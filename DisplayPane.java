@@ -15,30 +15,30 @@ public class DisplayPane extends JFrame {
 
     public DisplayPane() {
         initComponents();
-        knapsackUI = new KnapsackNavigatorUI(); 
+        knapsackUI = new KnapsackNavigatorUI();
         sorting = new SelectionSort();
         tspUI = new tspUI();
         stringMatchingUI = new StringMatchingUI();
     }
-
+    
     private void initComponents() {
         setTitle("AlgoAerie");
         setSize(new Dimension(1280, 720));
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
+
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(61, 96, 68));
         setContentPane(mainPanel);
-    
+
         JLabel problemOutputLabel = new JLabel("Crafting Pane");
         problemOutputLabel.setFont(new Font("Arial", Font.BOLD, 20));
         problemOutputLabel.setForeground(Color.WHITE);
         problemOutputLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-        problemOutputLabel.setPreferredSize(new Dimension(1280, 50)); 
+        problemOutputLabel.setPreferredSize(new Dimension(1280, 50));
         mainPanel.add(problemOutputLabel, BorderLayout.NORTH);
 
         outputPanel = new JPanel();
@@ -53,13 +53,13 @@ public class DisplayPane extends JFrame {
 
     private JPanel createSideBar(String[] values) {
         JPanel sideBarPanel = new JPanel();
-        sideBarPanel.setLayout(null); 
+        sideBarPanel.setLayout(null);
         sideBarPanel.setBackground(new Color(221, 173, 71));
     
-        int buttonWidth = 260; 
+        int buttonWidth = 260;
         int buttonHeight = 100; 
         int verticalGap = 20; 
-        int startY = 25;
+        int startY = 25; 
     
         for (int i = 0; i < values.length; i++) {
             String value = values[i];
@@ -121,7 +121,7 @@ public class DisplayPane extends JFrame {
             dialog.add(label);
 
             JButton goodbyeButton = new JButton("Good Bye!");
-            goodbyeButton.setMaximumSize(new Dimension(100, 30)); 
+            goodbyeButton.setMaximumSize(new Dimension(100, 30));  
             goodbyeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     dialog.dispose(); 
@@ -132,7 +132,7 @@ public class DisplayPane extends JFrame {
             dialog.add(goodbyeButton, BorderLayout.SOUTH);
 
             dialog.setSize(500, 200);
-            dialog.setLocationRelativeTo(this);
+            dialog.setLocationRelativeTo(this); 
             dialog.setVisible(true);
         } else {
             outputPanel.add(new JLabel("Output for: " + buttonText), BorderLayout.CENTER);
