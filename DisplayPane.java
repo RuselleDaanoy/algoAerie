@@ -86,7 +86,7 @@ public class DisplayPane extends JFrame {
         outputPanel.removeAll();
         if (buttonText.equals("Knapsack")) {
             knapsackUI = new KnapsackNavigatorUI(); 
-            outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
+            outputPanel.add(knapsackUI, BorderLayout.CENTER);
         } else if (buttonText.equals("Selection Sort")) {
             sorting = new SelectionSort();
             outputPanel.add(sorting, BorderLayout.CENTER);
