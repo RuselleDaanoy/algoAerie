@@ -105,7 +105,7 @@ public class DisplayPane extends JFrame {
         } else if (buttonText.equals("EXIT!!!")) {
             String message = "<html><body style='font-family: Arial, sans-serif; font-size: 10px;'>";
             message += "<div style='border: 1px solid #ccc; padding: 5px;'>";
-            message += "<i>As you depart, introducing the visionary minds behind AlgoArie's innovative GUI, TechTetra proudly presents:</i><br/>";
+            message += "<i>As you depart, introducing the visionary minds behind AlgoAerie's innovative GUI, TechTetra proudly presents:</i><br/>";
             message += "<ul style='list-style-type: none; padding-left: 0; margin-top: 3px;'>";
             message += "<br><li><i>Faye Camille Buri</i></li>";
             message += "<li><i>Louise Andrea Tatoy</i></li>";
