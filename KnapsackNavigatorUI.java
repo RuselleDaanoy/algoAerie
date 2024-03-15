@@ -9,7 +9,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
     private JButton proceedButton;
     private JPanel outputPanel;
     private JTextArea algorithmOutput;
-    private JTextField capacityField; // Added capacityField
+    private JTextField capacityField; 
 
     public KnapsackNavigatorUI() {
         setLayout(new BorderLayout());
@@ -65,7 +65,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
         panel.add(content);
     
         proceedButton = new JButton("Proceed");
-        proceedButton.setBounds(440, 500, 100, 30); 
+        proceedButton.setBounds(440, 500, 100, 30);
         proceedButton.addActionListener(this);
     
         panel.add(proceedButton);
@@ -200,10 +200,10 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
             }
 
             table.append(String.format("%-40s%-20.2f%-20d%s%n", subsetString, totalWeight, totalValue, feasibility));
- 
+
             if (totalValue > maxTotalValue && totalWeight <= capacity) {
                 maxTotalValue = totalValue;
-                mostValuableSubsets.clear(); 
+                mostValuableSubsets.clear();
                 mostValuableSubsets.add(subset);
             } else if (totalValue == maxTotalValue && totalWeight <= capacity) {
                 mostValuableSubsets.add(subset);
@@ -225,7 +225,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
             }
         }
 
-        Font font = new Font(Font.MONOSPACED, Font.PLAIN, 12);
+        Font font = new Font(Font.MONOSPACED, Font.PLAIN, 15);
         algorithmOutput.setFont(font); 
         algorithmOutput.setText(table.toString()); 
     }
