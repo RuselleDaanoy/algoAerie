@@ -106,16 +106,35 @@ public class StringMatchingUI extends JPanel implements ActionListener {
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String customerAddress = addressField.getText();
-                String search = searchField.getText();
-                List<Integer> occurrences = StringMatching.occurrences(customerAddress, search);
-                StringBuilder result = new StringBuilder();
-                result.append("Occurrences of ").append(search).append(":\n");
-                for (int i = 0; i < occurrences.size(); i++) {
-                    result.append("Index ").append(i + 1).append(": ").append(occurrences.get(i)).append("\n");
+                if (e.getSource() == searchButton) {
+                    
+                    String address = addressField.getText();
+                    String search = searchField.getText();
+            
+                    // Perform string matching
+                    List<Integer> occurrences = new ArrayList<>();
+                    String[] addressArray = address.split(", ");
+                    for (int i = 0; i < addressArray.length; i++) {
+                        if (addressArray[i].toLowerCase().contains(search.toLowerCase())) {
+                            occurrences.add(i + 1);
+                        }
+                    }
+            
+                    // Display results in algorithmOutput
+                    StringBuilder result = new StringBuilder();
+                    result.append("You are searching for ").append(search).append(":\n");
+                    if (occurrences.isEmpty()) {
+                        result.append("No match found.");
+                    } else {
+                        for (int i = 0; i < occurrences.size(); i++) {
+                            result.append((search) + " is found at index ").append(occurrences.get(i)).append(" (").append(addressArray[occurrences.get(i) - 1]).append(") ").append("\n");
+                        }
+                        result.append("It occured ").append(occurrences.size()).append(" time(s)");
+                    }
+                    resultArea.setText(result.toString());
                 }
-                resultArea.setText(result.toString());
             }
+            
         });
     
         layout.setHorizontalGroup(
@@ -167,7 +186,7 @@ public class StringMatchingUI extends JPanel implements ActionListener {
         panel.setBackground(new Color(112, 130, 62));
         panel.setBounds(0, 0, 980, 45);
 
-        JLabel title = new JLabel("String Matching Solution");
+        JLabel title = new JLabel("STRING MATCHING");
         title.setBounds(0, 0, 980, 45);
         title.setForeground(Color.WHITE);
         title.setHorizontalAlignment(JLabel.CENTER);
