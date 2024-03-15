@@ -26,7 +26,7 @@
 
         public JPanel mainPanel() {
             JPanel panel = new JPanel(null);
-            panel.setBackground(new Color(0xD9D9D9));
+            panel.setBackground(new Color(243, 234, 214));
 
             panel.add(header()); //Gray Panel
             panel.add(content());
@@ -56,7 +56,7 @@
 
         public JPanel content() {
             JPanel panel = new JPanel(null);
-            panel.setBackground(new Color(0xD9D9D9));
+            panel.setBackground(new Color(243, 234, 214));
             panel.setBounds(0, 40, 980, 655);
         
             String htmlContent = "<html>Deliver items to the customer's address from the selected province using the shortest route. Provide customer name and address for delivery initiation. Determine shortest route based on distances between provinces.<br><br>"
