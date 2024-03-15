@@ -53,7 +53,14 @@ public class SelectionSort extends JPanel implements ActionListener {
         panel.setBackground(new Color(243, 234, 214));
         panel.setBounds(0, 40, 980, 655);
 
-        String htmlContent = "<html> Sort the items according to the following criteria:<br><br>"
+        String htmlContent = "<html>Sort the items according to the following criteria:<br><br>"
+        + "<table border='1' style='margin: 0 auto;'>" +
+        "<tr><td>Product Name</td><td>Weight per Unit (kg)</td><td>Quantity Available</td></tr>" +
+        "<tr><td>Canned Goods</td><td>5</td><td>450</td></tr>" +
+        "<tr><td>Cooking Oil</td><td>3</td><td>725</td></tr>" +
+        "<tr><td>Noodles</td><td>2.5</td><td>375</td></tr>" +
+        "<tr><td>Soap</td><td>7</td><td>500</td></tr>" +
+        "</table><br>"
         + "a. Product Name<br>"
         + "b. Weight<br>"
         + "c. Amount<br><br>"
