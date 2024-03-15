@@ -4,6 +4,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.List;
 
 public class StringMatchingUI extends JPanel implements ActionListener {
     private JButton proceedButton;
@@ -82,48 +83,84 @@ public class StringMatchingUI extends JPanel implements ActionListener {
         outputPanel = new JPanel(null);
         outputPanel.setBackground(new Color(243, 234, 214));
         outputPanel.setPreferredSize(new Dimension(980, 680));
-
+    
         JPanel headerPanel = newHeader();
         headerPanel.setBounds(0, 0, 980, 45);
         outputPanel.add(headerPanel);
-
-        addressObtain = new JPanel();
-        addressObtain.setBackground(Color.GREEN);
-        addressObtain.setBounds(0, 45, 980, 280);
-        outputPanel.add(addressObtain);
-
-        outputMatch = new JPanel();
+    
+        JPanel contentPanel = new JPanel();
+        GroupLayout layout = new GroupLayout(contentPanel);
+        contentPanel.setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        contentPanel.setBounds(0, 45, 980, 280);
+    
+        JLabel addressLabel = new JLabel("Customer Address:");
+        JTextField addressField = new JTextField();
+        addressField.setPreferredSize(new Dimension(400, 30));
+    
+        JLabel searchLabel = new JLabel("Search Word:");
+        JTextField searchField = new JTextField();
+        searchField.setPreferredSize(new Dimension(200, 30));
+    
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String customerAddress = addressField.getText();
+                String search = searchField.getText();
+                List<Integer> occurrences = StringMatching.occurrences(customerAddress, search);
+                StringBuilder result = new StringBuilder();
+                result.append("Occurrences of ").append(search).append(":\n");
+                for (int i = 0; i < occurrences.size(); i++) {
+                    result.append("Index ").append(i + 1).append(": ").append(occurrences.get(i)).append("\n");
+                }
+                resultArea.setText(result.toString());
+            }
+        });
+    
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(addressLabel)
+                .addComponent(addressField)
+                .addComponent(searchLabel)
+                .addComponent(searchField)
+                .addComponent(searchButton)
+        );
+    
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+                .addComponent(addressLabel)
+                .addComponent(addressField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchLabel)
+                .addComponent(searchField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchButton)
+        );
+    
+        outputPanel.add(contentPanel);
+    
+        outputMatch = new JPanel(null);
         outputMatch.setBackground(Color.YELLOW);
         outputMatch.setBounds(0, 295, 980, 380);
-        outputPanel.add(outputMatch);
-
-       String customerAddress = JOptionPane.showInputDialog(null, "Please enter your address:");
-       String search = JOptionPane.showInputDialog(null,"Enter the word you'd like to search:");
-
-
-       List<Integer> occurrences = StringMatching.findOccurrences(customerAddress, search);
     
-       StringBuilder result = new StringBuilder();
-       result.append("Occurences of ").append(search).append(":\n");
-       for(int i = 0; i < occurrences.size(); i++){
-        result.append("Index ").append(i+1).append(": ").append(occurrences.get(i)).append("\n");
-       }
-
-       resultArea = new JTextArea(result.toString());
-       resultArea.setEditable(false);
-       resultArea.setFont(new Font("Arial", Font.PLAIN, 16));
-       JScrollPane scrollPane = new JScrollPane(resultArea);
-       
-       outputMatch.add(scrollPane, BorderLayout.CENTER);
-       outputPanel.add(outputMatch);
-
-       removeAll();
-       add(outputPanel, BorderLayout.CENTER);
-
-       revalidate();
-       repaint();
-
+        JLabel resultLabel = new JLabel("Search Results:");
+        resultLabel.setBounds(20, 20, 150, 20);
+        outputMatch.add(resultLabel);
+    
+        resultArea = new JTextArea();
+        resultArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(resultArea);
+        scrollPane.setBounds(20, 50, 940, 300);
+        outputMatch.add(scrollPane);
+    
+        outputPanel.add(outputMatch);
+    
+        removeAll();
+        add(outputPanel, BorderLayout.CENTER);
+    
+        revalidate();
+        repaint();
     }
+    
 
     public JPanel newHeader() {
         JPanel panel = new JPanel(null);
