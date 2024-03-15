@@ -158,6 +158,7 @@ public class SelectionSort extends JPanel implements ActionListener {
             };
 
             StringBuilder initialOrder = new StringBuilder("Initial Order of Products:\n");
+            initialOrder.append("Product      Weight Amount\n");
             for (Product product : products) {
                 initialOrder.append(product).append("\n");
             }
@@ -192,6 +193,7 @@ public class SelectionSort extends JPanel implements ActionListener {
             }
 
             output.append("\nSorted by ").append(selectedChoice).append(":\n");
+            output.append("Product      Weight Amount\n");
             for (Product product : products) {
                 output.append(product).append("\n");
             }
