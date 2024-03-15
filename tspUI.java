@@ -41,13 +41,13 @@
         public JPanel header() {
             JPanel panel = new JPanel(null);
             panel.setBackground(new Color(112, 130, 62));
-            panel.setBounds(0,0,980, 45);
+            panel.setBounds(0,0,980, 30);
 
             JLabel title = new JLabel("Traveling Salesman Problem"); //Header title
-            title.setBounds(0,0,980,40);
+            title.setBounds(0,0,980,30);
             title.setForeground(Color.WHITE);
             title.setHorizontalAlignment(JLabel.CENTER);
-            title.setFont(new Font("Arial", Font.BOLD, 24));
+            title.setFont(new Font("Arial", Font.BOLD, 20));
 
             panel.add(title);
 
@@ -116,13 +116,13 @@
         public JPanel newHeader() {
             JPanel panel = new JPanel(null);
             panel.setBackground(new Color(112, 130, 62));
-            panel.setBounds(0,0,980, 45);
+            panel.setBounds(0,0,980, 30);
 
             JLabel title = new JLabel("Traveling Salesman Solution"); //Header title
-            title.setBounds(0,0,980,40);
+            title.setBounds(0,0,980,30);
             title.setForeground(Color.WHITE);
             title.setHorizontalAlignment(JLabel.CENTER);
-            title.setFont(new Font("Arial", Font.BOLD, 24));
+            title.setFont(new Font("Arial", Font.BOLD, 20));
 
             panel.add(title);
 
