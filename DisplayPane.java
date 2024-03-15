@@ -10,11 +10,13 @@ public class DisplayPane extends JFrame {
     private JPanel outputPanel;
     private KnapsackNavigatorUI knapsackUI;
     private tspUI tspUI;
+    private SelectionSort sorting;
 
     public DisplayPane() {
         initComponents();
         knapsackUI = new KnapsackNavigatorUI();
         tspUI = new tspUI();
+        sorting = new SelectionSort();
     }
 
     private void initComponents() {
@@ -83,6 +85,11 @@ public class DisplayPane extends JFrame {
         if (buttonText.equals("Knapsack")) {
             knapsackUI = new KnapsackNavigatorUI();
             outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
+        } else if (buttonText.equals("Selection Sort")) {
+            sorting = new SelectionSort();
+            outputPanel.add(sorting, BorderLayout.CENTER);
+            outputPanel.revalidate();
+            outputPanel.repaint();
         } else if (buttonText.equals("Travelling Salesman Problem")){
             tspUI = new tspUI();
             outputPanel.add(tspUI, BorderLayout.CENTER);
