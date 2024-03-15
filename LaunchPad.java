@@ -31,7 +31,7 @@ public class LaunchPad extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(10, 0, 10, 0); 
 
-        hiLabel = new JLabel("Hi! are you new here?");
+        hiLabel = new JLabel("Hi! Are you new here?");
         hiLabel.setForeground(new Color(0, 0, 0));
         hiLabel.setFont(hiLabel.getFont().deriveFont(60f));
         textPanel.add(hiLabel, gbc);
