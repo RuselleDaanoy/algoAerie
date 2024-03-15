@@ -309,6 +309,10 @@
             return sb.toString().trim();
         }
 
+        public String getAddressOutputMessage() {
+            return addressOutput.getText();
+        }
+
         public static void main(String[] args) {
             SwingUtilities.invokeLater(() -> {
                 new tspUI().setVisible(true);
