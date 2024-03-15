@@ -95,6 +95,11 @@ public class DisplayPane extends JFrame {
             outputPanel.add(tspUI, BorderLayout.CENTER);
             outputPanel.revalidate();
             outputPanel.repaint();
+        } else if (buttonText.equals("String Matching")) { 
+            StringMatchingUI stringMatchingUI = new StringMatchingUI();
+            outputPanel.add(stringMatchingUI, BorderLayout.CENTER);
+            outputPanel.revalidate();
+            outputPanel.repaint();
         } else if (buttonText.equals("EXIT!!!")) {
             String message = "<html><body style='font-family: Arial, sans-serif; font-size: 10px;'>";
             message += "<div style='border: 1px solid #ccc; padding: 5px;'>";
