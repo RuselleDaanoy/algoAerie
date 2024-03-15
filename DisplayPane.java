@@ -8,15 +8,17 @@ import java.awt.event.ActionListener;
 public class DisplayPane extends JFrame {
 
     private JPanel outputPanel;
-    private KnapsackNavigatorUI knapsackUI;
-    private tspUI tspUI;
+    private KnapsackNavigatorUI knapsackUI; 
     private SelectionSort sorting;
+    private tspUI tspUI;
+    private StringMatchingUI stringMatchingUI;
 
     public DisplayPane() {
         initComponents();
-        knapsackUI = new KnapsackNavigatorUI();
-        tspUI = new tspUI();
+        knapsackUI = new KnapsackNavigatorUI(); 
         sorting = new SelectionSort();
+        tspUI = new tspUI();
+        stringMatchingUI = new StringMatchingUI();
     }
 
     private void initComponents() {
@@ -25,12 +27,12 @@ public class DisplayPane extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(61, 96, 68));
         setContentPane(mainPanel);
-
+    
         JLabel problemOutputLabel = new JLabel("Crafting Pane");
         problemOutputLabel.setFont(new Font("Arial", Font.BOLD, 20));
         problemOutputLabel.setForeground(Color.WHITE);
@@ -51,7 +53,7 @@ public class DisplayPane extends JFrame {
 
     private JPanel createSideBar(String[] values) {
         JPanel sideBarPanel = new JPanel();
-        sideBarPanel.setLayout(null);
+        sideBarPanel.setLayout(null); 
         sideBarPanel.setBackground(new Color(221, 173, 71));
     
         int buttonWidth = 260; 
@@ -63,7 +65,7 @@ public class DisplayPane extends JFrame {
             String value = values[i];
             RoundedButtonPanel buttonPanel = new RoundedButtonPanel(value);
             int panelX = 20; 
-            int panelY = startY + i * (buttonHeight + verticalGap); 
+            int panelY = startY + i * (buttonHeight + verticalGap);
             buttonPanel.setBounds(panelX, panelY, buttonWidth, buttonHeight);
             buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
             buttonPanel.addActionListener(new ActionListener() {
@@ -76,14 +78,14 @@ public class DisplayPane extends JFrame {
         }
 
         int preferredHeight = startY + values.length * buttonHeight + (values.length - 1) * verticalGap;
-        sideBarPanel.setPreferredSize(new Dimension(buttonWidth + 40, preferredHeight));
+        sideBarPanel.setPreferredSize(new Dimension(buttonWidth + 40, preferredHeight)); 
         return sideBarPanel;
     }
 
     private void handleButtonClick(String buttonText) {
         outputPanel.removeAll();
         if (buttonText.equals("Knapsack")) {
-            knapsackUI = new KnapsackNavigatorUI();
+            knapsackUI = new KnapsackNavigatorUI(); 
             outputPanel.add(knapsackUI.getMainPanel(), BorderLayout.CENTER);
         } else if (buttonText.equals("Selection Sort")) {
             sorting = new SelectionSort();
@@ -96,7 +98,7 @@ public class DisplayPane extends JFrame {
             outputPanel.revalidate();
             outputPanel.repaint();
         } else if (buttonText.equals("String Matching")) { 
-            StringMatchingUI stringMatchingUI = new StringMatchingUI();
+            stringMatchingUI = new StringMatchingUI();
             outputPanel.add(stringMatchingUI, BorderLayout.CENTER);
             outputPanel.revalidate();
             outputPanel.repaint();
@@ -130,7 +132,7 @@ public class DisplayPane extends JFrame {
             dialog.add(goodbyeButton, BorderLayout.SOUTH);
 
             dialog.setSize(500, 200);
-            dialog.setLocationRelativeTo(this); 
+            dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
         } else {
             outputPanel.add(new JLabel("Output for: " + buttonText), BorderLayout.CENTER);
