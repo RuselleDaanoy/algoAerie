@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -9,6 +10,7 @@ public class StringMatchingUI extends JPanel implements ActionListener {
     private JPanel outputPanel;
     private JPanel addressObtain;
     private JPanel outputMatch;
+    private JTextArea resultArea;
 
     public StringMatchingUI() {
         setLayout(new BorderLayout());
@@ -95,11 +97,32 @@ public class StringMatchingUI extends JPanel implements ActionListener {
         outputMatch.setBounds(0, 295, 980, 380);
         outputPanel.add(outputMatch);
 
-        removeAll();
-        add(outputPanel, BorderLayout.CENTER);
+       String customerAddress = JOptionPane.showInputDialog(null, "Please enter your address:");
+       String search = JOptionPane.showInputDialog(null,"Enter the word you'd like to search:");
 
-        revalidate();
-        repaint();
+
+       List<Integer> occurrences = StringMatching.findOccurrences(customerAddress, search);
+    
+       StringBuilder result = new StringBuilder();
+       result.append("Occurences of ").append(search).append(":\n");
+       for(int i = 0; i < occurrences.size(); i++){
+        result.append("Index ").append(i+1).append(": ").append(occurrences.get(i)).append("\n");
+       }
+
+       resultArea = new JTextArea(result.toString());
+       resultArea.setEditable(false);
+       resultArea.setFont(new Font("Arial", Font.PLAIN, 16));
+       JScrollPane scrollPane = new JScrollPane(resultArea);
+       
+       outputMatch.add(scrollPane, BorderLayout.CENTER);
+       outputPanel.add(outputMatch);
+
+       removeAll();
+       add(outputPanel, BorderLayout.CENTER);
+
+       revalidate();
+       repaint();
+
     }
 
     public JPanel newHeader() {
