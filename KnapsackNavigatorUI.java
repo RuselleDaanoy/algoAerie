@@ -9,7 +9,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
     private JButton proceedButton;
     private JPanel outputPanel;
     private JTextArea algorithmOutput;
-    private JTextField capacityField; 
+    private JTextField capacityField; // Added capacityField
 
     public KnapsackNavigatorUI() {
         setLayout(new BorderLayout());
@@ -59,13 +59,13 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
                 "</table></div></html>";
     
         JLabel content = new JLabel(htmlContent);
-        content.setBounds(40, 80, 900, 480);
+        content.setBounds(40, 80, 900, 480); // Adjusted bounds for the content label
         content.setVerticalAlignment(JLabel.TOP);
         content.setFont(new Font("Arial", Font.PLAIN, 20));
         panel.add(content);
     
         proceedButton = new JButton("Proceed");
-        proceedButton.setBounds(440, 500, 100, 30);
+        proceedButton.setBounds(440, 500, 100, 30); // Set bounds for the "Proceed" button
         proceedButton.addActionListener(this);
     
         panel.add(proceedButton);
@@ -111,6 +111,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
     private JPanel createKnapsackUIPanel() {
         JPanel knapsackUIPanel = new JPanel(new BorderLayout());
 
+        // Input panel with capacity field
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -129,6 +130,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
 
         knapsackUIPanel.add(inputPanel, BorderLayout.NORTH);
 
+        // Add JTextArea for result below the inputPanel
         algorithmOutput = new JTextArea();
         algorithmOutput.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(algorithmOutput);
@@ -145,6 +147,7 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
                 return;
             }
 
+            // Define products
             Product[] products = {
                     new Product("Canned Goods", 5, 450),
                     new Product("Cooking Oil", 3, 725),
@@ -201,15 +204,18 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
 
             table.append(String.format("%-40s%-20.2f%-20d%s%n", subsetString, totalWeight, totalValue, feasibility));
 
+            // Check if this subset has higher value than previous max
             if (totalValue > maxTotalValue && totalWeight <= capacity) {
                 maxTotalValue = totalValue;
-                mostValuableSubsets.clear();
+                mostValuableSubsets.clear(); // Clear previous max subsets
                 mostValuableSubsets.add(subset);
             } else if (totalValue == maxTotalValue && totalWeight <= capacity) {
+                // If this subset has the same highest value as the previous max, add it to the list
                 mostValuableSubsets.add(subset);
             }
         }
 
+        // Print the most valuable subsets
         if (!mostValuableSubsets.isEmpty()) {
             table.append("\n\nMost valuable subsets:\n");
             for (ArrayList<Product> subset : mostValuableSubsets) {
@@ -226,8 +232,8 @@ public class KnapsackNavigatorUI extends JPanel implements ActionListener {
         }
 
         Font font = new Font(Font.MONOSPACED, Font.PLAIN, 15);
-        algorithmOutput.setFont(font); 
-        algorithmOutput.setText(table.toString()); 
+        algorithmOutput.setFont(font); // Changed to algorithmOutput
+        algorithmOutput.setText(table.toString()); // Changed to algorithmOutput
     }
 
     public static void main(String[] args) {
