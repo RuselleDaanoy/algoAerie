@@ -70,7 +70,7 @@ public class LaunchPad extends JFrame {
         String capitalizedString = capitalized.toString().trim();
     
         textPanel.removeAll(); 
-        hiLabel.setText("LaunchPad, " + capitalizedString + "!"); 
+        hiLabel.setText("Welcome, " + capitalizedString + "!"); 
         textPanel.add(hiLabel, createGbc()); 
         textPanel.add(Box.createVerticalStrut(20), createGbc());
 
