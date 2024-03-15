@@ -1,15 +1,14 @@
 package com.example;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
 public class SelectionSort extends JPanel implements ActionListener {
-    private JLabel chooseLabel;
-    private JComboBox<String> choicesDropdown;
-    private JButton proceedButton, submitButton;
+    private JButton proceedButton;
     private JPanel outputPanel;
     private JTextArea algorithmOutput;
+    private JComboBox<String> choicesDropdown;
 
     public SelectionSort() {
         setLayout(new BorderLayout());
@@ -19,31 +18,25 @@ public class SelectionSort extends JPanel implements ActionListener {
     }
 
     public JPanel mainPanel() {
-        JPanel panel = new JPanel(null);
+        JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(243, 234, 214));
 
-        panel.add(header());
-        panel.add(content());
+        panel.add(header(), BorderLayout.NORTH);
+        panel.add(content(), BorderLayout.CENTER);
 
         return panel;
     }
 
-    public JPanel getMaiPanel() {
-        return mainPanel();
-    }
-
     public JPanel header() {
-        JPanel panel = new JPanel(null);
+        JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(112, 130, 62));
-        panel.setBounds(0, 0, 980, 45);
 
         JLabel title = new JLabel("Selection Sort Problem");
-        title.setBounds(0, 0, 980, 45);
         title.setForeground(Color.WHITE);
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
 
-        panel.add(title);
+        panel.add(title, BorderLayout.CENTER);
 
         return panel;
     }
@@ -54,26 +47,26 @@ public class SelectionSort extends JPanel implements ActionListener {
         panel.setBounds(0, 40, 980, 655);
 
         String htmlContent = "<html>Sort the items according to the following criteria:<br><br>"
-        + "<table border='1' style='margin: 0 auto;'>" +
-        "<tr><td>Product Name</td><td>Weight per Unit (kg)</td><td>Quantity Available</td></tr>" +
-        "<tr><td>Canned Goods</td><td>5</td><td>450</td></tr>" +
-        "<tr><td>Cooking Oil</td><td>3</td><td>725</td></tr>" +
-        "<tr><td>Noodles</td><td>2.5</td><td>375</td></tr>" +
-        "<tr><td>Soap</td><td>7</td><td>500</td></tr>" +
-        "</table><br>"
-        + "a. Product Name<br>"
-        + "b. Weight<br>"
-        + "c. Amount<br><br>"
-        + "Provide details on how the sorting process should be illustrated.</html>";
+                + "<table border='1' style='margin: 0 auto;'>" +
+                "<tr><td>Product Name</td><td>Weight per Unit (kg)</td><td>Quantity Available</td></tr>" +
+                "<tr><td>Canned Goods</td><td>5</td><td>450</td></tr>" +
+                "<tr><td>Cooking Oil</td><td>3</td><td>725</td></tr>" +
+                "<tr><td>Noodles</td><td>2.5</td><td>375</td></tr>" +
+                "<tr><td>Soap</td><td>7</td><td>500</td></tr>" +
+                "</table><br>"
+                + "a. Product Name<br>"
+                + "b. Weight<br>"
+                + "c. Amount<br><br>"
+                + "Provide details on how the sorting process should be illustrated.</html>";
 
         JLabel content = new JLabel(htmlContent);
-        content.setBounds(40, 80, 900, 640);
+        content.setBounds(40, 80, 900, 480);
         content.setVerticalAlignment(JLabel.TOP);
         content.setFont(new Font("Arial", Font.PLAIN, 20));
         panel.add(content);
 
         proceedButton = new JButton("Proceed");
-        proceedButton.setBounds(440, 520, 100, 30);
+        proceedButton.setBounds(440, 570, 100, 30);
         proceedButton.addActionListener(this);
 
         panel.add(proceedButton);
@@ -88,13 +81,12 @@ public class SelectionSort extends JPanel implements ActionListener {
     }
 
     public void displayOutputPanel() {
-        outputPanel = new JPanel(null);
+        outputPanel = new JPanel(new BorderLayout());
         outputPanel.setBackground(new Color(243, 234, 214));
         outputPanel.setPreferredSize(new Dimension(980, 680));
 
-        outputPanel.add(newHeader());
-        outputPanel.add(userPanel());
-        outputPanel.add(algorithmPanel());
+        outputPanel.add(newHeader(), BorderLayout.NORTH);
+        outputPanel.add(createOutputPanel(), BorderLayout.CENTER);
 
         removeAll();
         add(outputPanel, BorderLayout.CENTER);
@@ -104,62 +96,50 @@ public class SelectionSort extends JPanel implements ActionListener {
     }
 
     public JPanel newHeader() {
-        JPanel panel = new JPanel(null);
+        JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(112, 130, 62));
-        panel.setBounds(0, 0, 980, 45);
 
         JLabel title = new JLabel("Selection Sort Solution");
-        title.setBounds(0, 0, 980, 45);
         title.setForeground(Color.WHITE);
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 24));
 
-        panel.add(title);
+        panel.add(title, BorderLayout.CENTER);
 
         return panel;
     }
 
-    public JPanel userPanel() {
-        JPanel panel = new JPanel(null);
-        panel.setBackground(new Color(243, 234, 214));
-        panel.setBounds(0, 0, 980, 100);
+    private JPanel createOutputPanel() {
+        JPanel outputPanel = new JPanel(new BorderLayout());
 
-        //Label
-        chooseLabel = new JLabel("Choose your sorting method:");
-        chooseLabel.setBounds(210, 60, 300, 20);
-        panel.add(chooseLabel);
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        //Dropdown
-        String[] choices = {"Select choice", "a. Product Name", "b. Weight", "c. Amount"};
+        JLabel chooseLabel = new JLabel("Choose sorting method:");
+        inputPanel.add(chooseLabel);
+
+        String[] choices = {"Select choice", "Product Name", "Weight", "Amount"};
         choicesDropdown = new JComboBox<>(choices);
-        choicesDropdown.setBounds(380, 60, 200, 20);
-        panel.add(choicesDropdown);
+        inputPanel.add(choicesDropdown);
 
-        //Submit Button
-        submitButton = new JButton("Submit");
-        submitButton.setBounds(590, 60, 100, 20);
+        JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(this::actionPerformedSubmit);
-        panel.add(submitButton);
+        inputPanel.add(submitButton);
 
-        return panel;
-    }
-
-    public JPanel algorithmPanel() {
-        JPanel panel = new JPanel(null);
-        panel.setBackground(new Color(250, 223, 163));
-        panel.setBounds(0, 0, 980, 640);
+        outputPanel.add(inputPanel, BorderLayout.NORTH);
 
         algorithmOutput = new JTextArea();
-        algorithmOutput.setBounds(40, 130, 880, 400);
         algorithmOutput.setEditable(false);
-        algorithmOutput.setBackground(new Color(250, 223, 163));
-        panel.add(algorithmOutput);
+        JScrollPane scrollPane = new JScrollPane(algorithmOutput);
+        outputPanel.add(scrollPane, BorderLayout.CENTER);
 
-        return panel;
+        return outputPanel;
     }
 
-    public void actionPerformedSubmit(ActionEvent e) {
-        if (e.getSource() == submitButton) {
+    private void actionPerformedSubmit(ActionEvent e) {
+        if (e.getSource() == proceedButton) {
+            displayOutputPanel();
+        } else if (e.getSource() instanceof JButton) {
             String selectedChoice = (String) choicesDropdown.getSelectedItem();
 
             if (selectedChoice.equals("Select choice")) {
@@ -170,10 +150,54 @@ public class SelectionSort extends JPanel implements ActionListener {
                 return;
             }
 
-            String message = "This is where your output goes.";
+            Product[] products = {
+                    new Product("Canned Goods", 5, 450),
+                    new Product("Cooking Oil", 3, 725),
+                    new Product("Noodles", 2.5, 375),
+                    new Product("Soap", 7, 500)
+            };
 
-            algorithmOutput.setText(message);
-            algorithmOutput.setFont(new Font("Arial", Font.PLAIN, 16));
+            StringBuilder initialOrder = new StringBuilder("Initial Order of Products:\n");
+            for (Product product : products) {
+                initialOrder.append(product).append("\n");
+            }
+
+            StringBuilder output = new StringBuilder();
+            output.append(initialOrder.toString());
+            output.append("\nStart : ").append(java.util.Arrays.toString(products)).append("\n");
+
+            for (int i = 0; i < products.length - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < products.length; j++) {
+                    boolean swap = false;
+                    switch (selectedChoice) {
+                        case "Product Name":
+                            swap = products[j].name.compareTo(products[minIndex].name) < 0;
+                            break;
+                        case "Weight":
+                            swap = products[j].weight < products[minIndex].weight;
+                            break;
+                        case "Amount":
+                            swap = products[j].amount < products[minIndex].amount;
+                            break;
+                    }
+                    if (swap) {
+                        minIndex = j;
+                    }
+                }
+                Product temp = products[minIndex];
+                products[minIndex] = products[i];
+                products[i] = temp;
+                output.append("Pass ").append(i + 1).append(": ").append(java.util.Arrays.toString(products)).append("\n");
+            }
+
+            output.append("\nSorted by ").append(selectedChoice).append(":\n");
+            for (Product product : products) {
+                output.append(product).append("\n");
+            }
+
+            algorithmOutput.setText(output.toString());
+            algorithmOutput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
         }
     }
 
@@ -182,5 +206,4 @@ public class SelectionSort extends JPanel implements ActionListener {
             new SelectionSort().setVisible(true);
         });
     }
-    
 }
