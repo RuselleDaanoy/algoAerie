@@ -1,39 +1,53 @@
 package com.example;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import javax.swing.*;
+import java.util.ArrayList;
 
-public class KnapsackNavigatorUI {
-
-    private JPanel mainPanel;
-    private JTextField capacityField;
-    private JTextArea resultArea;
+public class KnapsackNavigatorUI extends JPanel implements ActionListener {
     private JButton proceedButton;
-    private JPanel knapsackUIPanel; // Panel for the knapsack UI
+    private JPanel outputPanel;
+    private JTextArea algorithmOutput;
+    private JTextField capacityField; // Added capacityField
 
     public KnapsackNavigatorUI() {
-        initialize();
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(980, 700));
+
+        add(mainPanel(), BorderLayout.CENTER);
     }
 
-    private void initialize() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+    public JPanel mainPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(243, 234, 214));
 
-        // Add the text message panel
-        mainPanel.add(createTextMessagePanel());
+        panel.add(header(), BorderLayout.NORTH);
+        panel.add(content(), BorderLayout.CENTER);
+
+        return panel;
     }
 
-    private JPanel createTextMessagePanel() {
-        JPanel textMessagePanel = new JPanel();
-        textMessagePanel.setLayout(new BoxLayout(textMessagePanel, BoxLayout.Y_AXIS));
+    public JPanel header() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(112, 130, 62));
+
+        JLabel title = new JLabel("Knapsack Problem");
+        title.setForeground(Color.WHITE);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+
+        panel.add(title, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    public JPanel content() {
+        JPanel panel = new JPanel(null);
+        panel.setBackground(new Color(243, 234, 214));
+        panel.setBounds(0, 40, 980, 655);
     
-        // Add vertical glue to center the label vertically
-        textMessagePanel.add(Box.createVerticalGlue());
-    
-        // Create the text message label
-        JLabel textMessageLabel = new JLabel("<html><div style='text-align: center;'><font face='Tahoma' size='20' color='black'><b>KNAPSACK:</b></font><br>" +
+        String htmlContent = "<html><div style='text-align: center;'><font face='Tahoma' size='20' color='black'><b>KNAPSACK:</b></font><br>" +
                 "Identify the compatible cargo for the vehicle, adhering to strict weight restrictions. The vehicle can accommodate loads ranging from a minimum of 1 kilogram to a maximum of 15 kilograms.<br>" +
                 "<br>" +
                 "<table border='1'>" +
@@ -42,88 +56,95 @@ public class KnapsackNavigatorUI {
                 "<tr><td>Cooking Oil</td><td>3</td><td>725</td></tr>" +
                 "<tr><td>Noodles</td><td>2.5</td><td>375</td></tr>" +
                 "<tr><td>Soap</td><td>7</td><td>500</td></tr>" +
-                "</table></div></html>");
-        textMessageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        textMessagePanel.add(textMessageLabel);
+                "</table></div></html>";
     
-        // Add rigid area to move the button up
-        textMessagePanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        JLabel content = new JLabel(htmlContent);
+        content.setBounds(40, 80, 900, 480);
+        content.setVerticalAlignment(JLabel.TOP);
+        content.setFont(new Font("Arial", Font.PLAIN, 20));
+        panel.add(content);
     
-        // Create the "Proceed" button
         proceedButton = new JButton("Proceed");
-        proceedButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        proceedButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Show the knapsack UI panel when the "Proceed" button is clicked
-                showKnapsackUIPanel();
-            }
-        });
-        textMessagePanel.add(proceedButton);
+        proceedButton.setBounds(440, 500, 100, 30); 
+        proceedButton.addActionListener(this);
     
-        // Add vertical glue to center the label vertically
-        textMessagePanel.add(Box.createVerticalGlue());
+        panel.add(proceedButton);
     
-        return textMessagePanel;
+        return panel;
     }
 
-    private void showKnapsackUIPanel() {
-        // Remove the text message panel
-        mainPanel.removeAll();
-    
-    
-        // Initialize the knapsack UI panel
-        if (knapsackUIPanel == null) {
-            knapsackUIPanel = createKnapsackUIPanel();
-            mainPanel.add(knapsackUIPanel);
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == proceedButton) {
+            displayOutputPanel();
         }
-    
-        // Update the main panel
-        mainPanel.revalidate();
-        mainPanel.repaint();
+    }
+
+    public void displayOutputPanel() {
+        outputPanel = new JPanel(new BorderLayout());
+        outputPanel.setBackground(new Color(243, 234, 214));
+        outputPanel.setPreferredSize(new Dimension(980, 680));
+
+        outputPanel.add(newHeader(), BorderLayout.NORTH);
+        outputPanel.add(createKnapsackUIPanel(), BorderLayout.CENTER);
+
+        removeAll();
+        add(outputPanel, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
+    }
+
+    public JPanel newHeader() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(112, 130, 62));
+
+        JLabel title = new JLabel("Knapsack Subsets and Solution");
+        title.setForeground(Color.WHITE);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+
+        panel.add(title, BorderLayout.CENTER);
+
+        return panel;
     }
 
     private JPanel createKnapsackUIPanel() {
         JPanel knapsackUIPanel = new JPanel(new BorderLayout());
-    
-        // Input panel with capacity field
+
         JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    
+
         JLabel capacityLabel = new JLabel("Enter Capacity from (1-15): ");
-        capacityLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
         capacityField = new JTextField(20);
-        capacityField.setMaximumSize(new Dimension(280, 25));
         JButton solveButton = new JButton("Solve");
         solveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 solveKnapsack();
             }
         });
-    
+
         inputPanel.add(capacityLabel);
         inputPanel.add(capacityField);
         inputPanel.add(solveButton);
-    
+
         knapsackUIPanel.add(inputPanel, BorderLayout.NORTH);
-    
-        // Add JTextArea for result below the inputPanel
-        resultArea = new JTextArea();
-        resultArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(resultArea);
+
+        algorithmOutput = new JTextArea();
+        algorithmOutput.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(algorithmOutput);
         knapsackUIPanel.add(scrollPane, BorderLayout.CENTER);
-    
+
         return knapsackUIPanel;
     }
-    
+
     void solveKnapsack() {
         try {
             double capacity = Double.parseDouble(capacityField.getText());
             if (capacity < 1 || capacity > 15) {
-                JOptionPane.showMessageDialog(mainPanel, "Capacity must be between 1 and 15.");
+                JOptionPane.showMessageDialog(outputPanel, "Capacity must be between 1 and 15.");
                 return;
             }
 
-            // Define products
             Product[] products = {
                     new Product("Canned Goods", 5, 450),
                     new Product("Cooking Oil", 3, 725),
@@ -134,7 +155,7 @@ public class KnapsackNavigatorUI {
             ArrayList<ArrayList<Product>> subsets = KnapsackSolver.generateSubsets(products);
             printTable(subsets, capacity);
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(mainPanel, "Invalid input. Please enter a number.");
+            JOptionPane.showMessageDialog(outputPanel, "Invalid input. Please enter a number.");
         }
     }
 
@@ -157,10 +178,10 @@ public class KnapsackNavigatorUI {
     private void printTable(ArrayList<ArrayList<Product>> subsets, double capacity) {
         StringBuilder table = new StringBuilder();
         table.append(String.format("%-40s%-20s%-20s%n", "Subset", "Total Weight", "Total Value"));
-    
+
         ArrayList<ArrayList<Product>> mostValuableSubsets = new ArrayList<>();
         int maxTotalValue = 0;
-    
+
         for (ArrayList<Product> subset : subsets) {
             double totalWeight = calculateTotalWeight(subset);
             int totalValue = calculateTotalValue(subset);
@@ -172,26 +193,23 @@ public class KnapsackNavigatorUI {
                 subsetString.setLength(subsetString.length() - 1);
             }
             subsetString.append("}");
-    
+
             String feasibility = "";
             if (totalWeight > capacity) {
                 feasibility = "-not feasible";
             }
-    
+
             table.append(String.format("%-40s%-20.2f%-20d%s%n", subsetString, totalWeight, totalValue, feasibility));
-    
-            // Check if this subset has higher value than previous max
+ 
             if (totalValue > maxTotalValue && totalWeight <= capacity) {
                 maxTotalValue = totalValue;
-                mostValuableSubsets.clear(); // Clear previous max subsets
+                mostValuableSubsets.clear(); 
                 mostValuableSubsets.add(subset);
             } else if (totalValue == maxTotalValue && totalWeight <= capacity) {
-                // If this subset has the same highest value as the previous max, add it to the list
                 mostValuableSubsets.add(subset);
             }
         }
-    
-        // Print the most valuable subsets
+
         if (!mostValuableSubsets.isEmpty()) {
             table.append("\n\nMost valuable subsets:\n");
             for (ArrayList<Product> subset : mostValuableSubsets) {
@@ -206,14 +224,15 @@ public class KnapsackNavigatorUI {
                 table.append("Total Value: ").append(maxTotalValue).append("\n\n");
             }
         }
-    
-        Font font = new Font(Font.MONOSPACED, Font.PLAIN, 12);
-        resultArea.setFont(font);
-        resultArea.setText(table.toString());
-    }
-    
 
-    public JPanel getMainPanel() {
-        return mainPanel;
+        Font font = new Font(Font.MONOSPACED, Font.PLAIN, 12);
+        algorithmOutput.setFont(font); 
+        algorithmOutput.setText(table.toString()); 
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new KnapsackNavigatorUI().setVisible(true);
+        });
     }
 }
